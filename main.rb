@@ -1,13 +1,11 @@
 require 'rubygems'
 require 'sinatra'
-require 'twiliolib'
+require 'twilio-ruby'
 
 # Twilio setup
 API_VERSION = '2010-04-01'
-CALLER_ID = '(646) 448-9996'
-ACCOUNT_SID = ENV['TWILIO_ID']
-ACCOUNT = Twilio::RestAccount.new(ENV['ACCOUNT_SID'], ENV['ACCOUNT_TOKEN'])
-URL_POST_SMS = "/#{API_VERSION}/Accounts/#{ENV['ACCOUNT_SID']}/SMS/Messages"
+BROADCASTER = '+15128616593'
+@client = Twilio::REST::Client.new, ENV['TWILIO_ID'], ENV['AUTH_TOKEN']
 
 get '/' do
   erb :main
@@ -16,8 +14,16 @@ end
 post '/sms' do
   @from = params[:From]
   @message = 'Success!'
-  h = {:From => '+15128616593', :To => @from, :Body => @message }
-  resp = ACCOUNT.request(URL_POST_SMS, 'POST', h)
 
+/*
+  response = Twilio::TwiML::Response.new do |r|
+    r.Sms 'hello there'
+  end
+*/
+  @client.account.sms.messages.create (
+    :from => BROADCASTER,
+    :to => @from,
+    :body => 'Hey there!'
+  )
 end
 
