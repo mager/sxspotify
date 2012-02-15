@@ -4,7 +4,7 @@ require 'twilio-ruby'
 
 # Twilio setup
 BROADCASTER = '+15128616593'
-@client = Twilio::REST::Client.new, ENV['TWILIO_ID'], ENV['AUTH_TOKEN']
+@client = Twilio::REST::Client.new ENV['TWILIO_ID'], ENV['AUTH_TOKEN']
 
 get '/' do
   erb :main
