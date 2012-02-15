@@ -14,6 +14,10 @@ post '/sms' do
   puts params
   @from = params[:From]
   @message = 'Success!'
-  @client.account.sms.messages.create(:from=>BROADCASTER,:to=>@from,:body=>@message)
+  @client.account.sms.messages.create(
+    :from => '+15128616593',
+    :to => '+14158305533',
+    :body => 'Hey there!'
+  )
 end
 
