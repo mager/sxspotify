@@ -12,7 +12,12 @@ get '/' do
 end
 
 post '/sms' do
-  puts 'HELLO!'
-  @client.account.sms.messages.create(:from => '+15128616593',:to => '+14158305533',:body => 'Hey there!')
+  puts 'hello1'
+  puts @client
+  puts 'hello2'
+  @client.account.sms.messages.create(
+    :from => '+15128616593',
+    :to => '+14158305533',
+    :body => 'Hey there!'
+  )
 end
-
