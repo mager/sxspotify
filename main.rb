@@ -14,16 +14,6 @@ end
 post '/sms' do
   @from = params[:From]
   @message = 'Success!'
-
-/*
-  response = Twilio::TwiML::Response.new do |r|
-    r.Sms 'hello there'
-  end
-*/
-  @client.account.sms.messages.create (
-    :from => BROADCASTER,
-    :to => @from,
-    :body => 'Hey there!'
-  )
+  @client.account.sms.messages.create (:from => BROADCASTER,:to => @from,:body => 'Hey there!')
 end
 
