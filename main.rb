@@ -26,12 +26,13 @@ post '/sms' do
     @message = 'You will now get updates from Spotify about awesome shows at SxSW. Text "off" to unsubscribe.'
     @on = true
   elsif @body == 'cancel' or @body == 'Cancel' or @body == 'off' or @body == "Off" or @body == 'Unsubscribe'
+
     @message = 'Okay, you\'re unsubscribed. Text "on" to turn on notifications.'
     @on = false
-    User.update({
-      :number => @from,
-      :on => false
-    })
+    @user = User.first(:number => @number)
+    @user.on = false
+    @user.save
+
   elsif @body == 'on' or @body == 'On'
     @message = 'Welcome back! Notifications from Spotify are on. Text @'
     @on = true
