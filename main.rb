@@ -28,21 +28,27 @@ post '/sms' do
   })
 
   if @body == 'Subscribe' or @body == 'Spotify'
+
     @message = 'You will now get updates from Spotify about awesome shows at SxSW. Text "off" to unsubscribe.'
     @on = true
+    update_database()
+
   elsif @body == 'cancel' or @body == 'Cancel' or @body == 'off' or @body == "Off" or @body == 'Unsubscribe'
 
     @message = 'Okay, you\'re unsubscribed. Text "on" to turn on notifications.'
     @on = false
-    @user = User.first(:number => @from)
-    @user.update_attributes(:on => false)
-    @user.save
+    update_database()
 
   elsif @body == 'on' or @body == 'On'
+
     @message = 'Welcome back! Notifications from Spotify are on. Text @'
     @on = true
+    update_database()
+
   else
-    @body == 'I don\t recognize that command. Try again sucka!!'
+
+    @body == 'I don\t recognize that command. Type "help" to get a list of commands.'
+
   end
 
     @client.account.sms.messages.create(
@@ -51,4 +57,12 @@ post '/sms' do
       :body => @message
     )
 
+end
+
+
+# Functions
+def update_database()
+  @user = User.first(:number => @from)
+  @user.update_attributes(:on => @on)
+  @user.save
 end
