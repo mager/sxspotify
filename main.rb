@@ -32,7 +32,7 @@ post '/sms' do
     for user in User.all(:on=>true)
       @client.account.sms.messages.create(
         :from => @us,
-        :to => user[:number]
+        :to => user[:number],
         :body => @body
       )
     end
