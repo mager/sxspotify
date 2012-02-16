@@ -8,11 +8,6 @@ get '/' do
   erb :main
 end
 
-get '/sms' do
-  puts 'Hello Alex'
-end
-
-
 # When someone sends a text message to us, this code runs
 post '/sms' do
   # Initialize Twilio
@@ -29,8 +24,9 @@ post '/sms' do
   @text_message = nil # The message we blast to everyone
   @on = false
 
-  # Create a row in the database
+  # Don't add a user if they already exist
   if User.first(:number => @from) == nil
+    # Create a row in the database
     User.create({
       :number => @from,
       :on => @on
