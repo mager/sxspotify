@@ -30,7 +30,7 @@ post '/sms' do
     @message = 'Okay, you\'re unsubscribed. Text "on" to turn on notifications.'
     @on = false
     @user = User.first(:number => @number)
-    @user.on = false
+    @user.update_attributes(:on => false)
     @user.save
 
   elsif @body == 'on' or @body == 'On'
