@@ -9,4 +9,3 @@ class User
 
   timestamps!
 end
-

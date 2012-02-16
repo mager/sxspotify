@@ -4,10 +4,6 @@ require 'twilio-ruby'
 require 'mongo_mapper'
 require './model'
 
-get '/' do
-  "Hello Candice!"
-end
-
 # When someone sends a text message to us, this code runs
 post '/sms' do
   # Initialize Twilio
@@ -16,15 +12,14 @@ post '/sms' do
   @client = Twilio::REST::Client.new @sid, @auth_token
 
   # Set global variables
-  @broadcasters = ['+14154345434', '+17038483833']
-  @from = params[:From]
+  @from = params[:From] # The @from variable is the user's cell phone number
   # TODO: Make sure phone numbers are in Twilio format,
   # right now they are just 10 digits, not +1XXXXXXXXXX
   @body = params[:Body]
   @text_message = nil # The message we blast to everyone
   @on = false
 
-  # Don't add a user if they already exist
+  # If a phone number is not in the database...
   if User.first(:number => @from) == nil
     # Create a row in the database
     User.create({
