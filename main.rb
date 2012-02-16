@@ -25,14 +25,12 @@ post '/sms' do
   @on = false
 
   # Create a row in the database
-  if !User.first(:number => @from)
-    User.create({
-      :number => @from,
-      :on => @on
-    })
-  end
+  User.create({
+    :number => @from,
+    :on => @on
+  })
 
-  if @from == '4158305533'
+  if @from == '+14158305533'
 
       @client.account.sms.messages.create(
         :from => '+15128616593',
