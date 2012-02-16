@@ -2,7 +2,6 @@ require 'rubygems'
 require 'sinatra'
 require 'twilio-ruby'
 require 'mongo_mapper'
-require 'bson_ext'
 require './model'
 
 get '/' do
