@@ -4,10 +4,6 @@ require 'twilio-ruby'
 require 'mongo_mapper'
 require './model'
 
-get '/' do
-  erb :main
-end
-
 # When someone sends a text message to us, this code runs
 post '/sms' do
   # Initialize Twilio
