@@ -11,7 +11,7 @@ post '/sms' do
   @auth_token = '5ec9e80206da8b8779b370c73f74df65'
   @client = Twilio::REST::Client.new @sid, @auth_token
 
-  @from = params[From]
+  @from = params[:From]
   @client.account.sms.messages.create(
     :from => '+15128616593',
     :to => @from,
