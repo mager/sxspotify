@@ -30,7 +30,7 @@ post '/sms' do
     @message = 'Okay, you\'re unsubscribed. Text "on" to turn on notifications.'
     @on = false
     User.update({
-      :on => false;
+      :on => false
     })
   elsif @body == 'on' or @body == 'On'
     @message = 'Welcome back! Notifications from Spotify are on. Text @'
