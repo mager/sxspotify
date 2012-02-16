@@ -24,44 +24,56 @@ post '/sms' do
   @text_message = nil
   @on = false
 
+  # Create a row in the database
   User.create({
     :number => @from,
     :on => @on
   })
 
-  if @body == 'Subscribe' or @body == 'Spotify'
+  if @from == '6464131271'
 
-    @message = 'You will now get updates from Spotify about awesome shows at SxSW. Text "off" to unsubscribe.'
-    @on = true
-    update_database()
-
-  elsif @body == 'cancel' or @body == 'Cancel' or @body == 'off' or @body == "Off" or @body == 'Unsubscribe'
-
-    @message = 'Okay, you\'re unsubscribed. Text "on" to turn on notifications.'
-    @on = false
-    update_database()
-
-  elsif @body == 'on' or @body == 'On'
-
-    @message = 'Welcome back! Notifications from Spotify are on. Stay tuned for updates about secret shows at SxSW'
-    @on = true
-    update_database()
-
-  elsif @body == 'help' or @body == 'Help' or @body == 'HELP'
-
-    @message = 'I haven\'t programmed that. Yell at @mager'
+      @client.account.sms.messages.create(
+        :from => '+15128616593',
+        :to => @from,
+        :body => @body
+      )
 
   else
 
-    @body == 'I don\t recognize that command. Type "help" to get a list of commands.'
+    if @body == 'Subscribe' or @body == 'Spotify'
 
+      @message = 'You will now get updates from Spotify about awesome shows at SxSW. Text "off" to unsubscribe.'
+      @on = true
+      update_database()
+
+    elsif @body == 'cancel' or @body == 'Cancel' or @body == 'off' or @body == "Off" or @body == 'Unsubscribe'
+
+      @message = 'Okay, you\'re unsubscribed. Text "on" to turn on notifications.'
+      @on = false
+      update_database()
+  
+    elsif @body == 'on' or @body == 'On'
+
+      @message = 'Welcome back! Notifications from Spotify are on. Stay tuned for updates about secret shows at SxSW'
+      @on = true
+      update_database()
+
+    elsif @body == 'help' or @body == 'Help' or @body == 'HELP'
+
+      @message = 'I haven\'t programmed that. Yell at @mager'
+
+    else
+
+      @body == 'I don\t recognize that command. Type "help" to get a list of commands.'
+
+    end
+
+      @client.account.sms.messages.create(
+        :from => '+15128616593',
+        :to => @from,
+        :body => @message
+      )
   end
-
-    @client.account.sms.messages.create(
-      :from => '+15128616593',
-      :to => @from,
-      :body => @message
-    )
 
 end
 
