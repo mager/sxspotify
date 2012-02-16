@@ -1,2 +1,2 @@
 sinatra
-twilio-ruby
+twilio-ruby --version 3.5.1
