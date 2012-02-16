@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'twilio-ruby'
+require './model'
 
 get '/' do
   erb :main
@@ -17,11 +18,17 @@ post '/sms' do
   @from = params[:From]
   @body = params[:Body]
   @text_message = nil
+  @on = nil
 
-  if @body == 'Subscribe' or if @body == 'on'
-    @message = 'You will now get updates from Spotify about awesome shows at SxSW. Text "cancel" to unsubscribe.'
-  elsif @body == 'cancel' or @body == 'Cancel'
+  if @body == 'Subscribe'
+    @message = 'You will now get updates from Spotify about awesome shows at SxSW. Text "off" to unsubscribe.'
+    @on = true
+  elsif @body == 'cancel' or @body == 'Cancel' or @body == 'off' or @body == 'Unsubscribe'
     @message = 'Okay, you\'re unsubscribed. Text "on" to turn on notifications.'
+    @on = false
+  elsif @body == 'on' or @body == 'On'
+    @message = 'Welcome back! Notifications from Spotify are on. Text @'
+    @on = true
   else
     @body == 'I don\t recognize that command. Try again sucka!!'
   end
@@ -31,4 +38,9 @@ post '/sms' do
       :to => @from,
       :body => @message
     )
+
+  User.create({
+    :number => @from,
+    :on => @on
+  })
 end
