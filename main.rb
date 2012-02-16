@@ -41,7 +41,7 @@ post '/sms' do
 
   elsif @body == 'on' or @body == 'On'
 
-    @message = 'Welcome back! Notifications from Spotify are on. Text @'
+    @message = 'Welcome back! Notifications from Spotify are on. Stay tuned for updates about secret shows at SxSW'
     @on = true
     update_database()
 
