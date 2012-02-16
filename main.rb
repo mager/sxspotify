@@ -16,8 +16,10 @@ post '/sms' do
   @client = Twilio::REST::Client.new @sid, @auth_token
 
   # Set global variables
+  @broadcasters = []
   @from = params[:From]
-  # TODO: Make sure phone numbers are in Twilio format
+  # TODO: Make sure phone numbers are in Twilio format,
+  # right now they are just 10 digits, not +1XXXXXXXXXX
   @body = params[:Body]
   @text_message = nil
   @on = false
@@ -44,6 +46,10 @@ post '/sms' do
     @message = 'Welcome back! Notifications from Spotify are on. Stay tuned for updates about secret shows at SxSW'
     @on = true
     update_database()
+
+  elsif @body == 'help' or @body == 'Help' or @body == 'HELP'
+
+    @message = 'I haven\'t programmed that. Yell at @mager'
 
   else
 
