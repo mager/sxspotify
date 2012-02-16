@@ -1,2 +1,4 @@
+rubygems
 sinatra
+builder --version 3.0.0
 twilio-ruby --version 3.5.1
