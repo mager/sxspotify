@@ -28,13 +28,14 @@ post '/sms' do
   end
 
   # TODO: If the incoming cell phone number is a certified Spotify broadcaster, like Candice, Rachel, or Andrew, the whole logic of the code changes; And the message from that cell phone gets sent to every other cell phone in the database.
-  if @from == '+14158305533'
-
+  if @from == '+16464131271'
+    for user in User.all(:on=>true)
       @client.account.sms.messages.create(
         :from => @us,
-        :to => @from, # Actually an array of all the phone numbers
+        :to => user[:number]
         :body => @body
       )
+    end
 
   else
 
