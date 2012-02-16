@@ -2,6 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'twilio-ruby'
 require 'mongo_mapper'
+require 'bson_ext'
 require './model'
 
 get '/' do
@@ -17,6 +18,7 @@ post '/sms' do
 
   # Set global variables
   @from = params[:From]
+  # TODO: Make sure phone numbers are in Twilio format
   @body = params[:Body]
   @text_message = nil
   @on = nil
@@ -24,9 +26,12 @@ post '/sms' do
   if @body == 'Subscribe'
     @message = 'You will now get updates from Spotify about awesome shows at SxSW. Text "off" to unsubscribe.'
     @on = true
-  elsif @body == 'cancel' or @body == 'Cancel' or @body == 'off' or @body == 'Unsubscribe'
+  elsif @body == 'cancel' or @body == 'Cancel' or @body == 'off' or @body == "Off" or @body == 'Unsubscribe'
     @message = 'Okay, you\'re unsubscribed. Text "on" to turn on notifications.'
     @on = false
+    User.update({
+      :on => false;
+    })
   elsif @body == 'on' or @body == 'On'
     @message = 'Welcome back! Notifications from Spotify are on. Text @'
     @on = true

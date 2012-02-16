@@ -8,6 +8,8 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     bson (1.5.2)
+    bson_ext (1.5.2)
+      bson (= 1.5.2)
     builder (3.0.0)
     i18n (0.6.0)
     json (1.6.5)
@@ -34,6 +36,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bson_ext (= 1.5.2)
   mongo_mapper (= 0.11.0)
   sinatra (= 1.0)
   twilio-ruby (= 3.5.1)
