@@ -18,9 +18,9 @@ post '/sms' do
   @body = params[:Body]
   @text_message = nil
 
-  if @body == 'Subscribe'
+  if @body == 'Subscribe' or if @body == 'on'
     @message = 'You will now get updates from Spotify about awesome shows at SxSW. Text "cancel" to unsubscribe.'
-  elsif @body == 'cancel'
+  elsif @body == 'cancel' or @body == 'Cancel'
     @message = 'Okay, you\'re unsubscribed. Text "on" to turn on notifications.'
   else
     @body == 'I don\t recognize that command. Try again sucka!!'
