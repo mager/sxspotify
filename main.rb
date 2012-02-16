@@ -13,9 +13,7 @@ post '/sms' do
   @client = Twilio::REST::Client.new @sid, @auth_token
 
   # Set global variables
-  @from = params[:From] # The @from variable is the user's cell phone number
-  # TODO: Make sure phone numbers are in Twilio format,
-  # right now they are just 10 digits, not +1XXXXXXXXXX
+  @from = "+1" << params[:From] # The @from variable is the user's cell phone number
   @body = params[:Body]
   @text_message = nil # The message we blast to everyone
   @on = false
