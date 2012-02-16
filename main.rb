@@ -20,7 +20,12 @@ post '/sms' do
   # TODO: Make sure phone numbers are in Twilio format
   @body = params[:Body]
   @text_message = nil
-  @on = nil
+  @on = false
+
+  User.create({
+    :number => @from,
+    :on => @on
+  })
 
   if @body == 'Subscribe' or @body == 'Spotify'
     @message = 'You will now get updates from Spotify about awesome shows at SxSW. Text "off" to unsubscribe.'
@@ -46,8 +51,4 @@ post '/sms' do
       :body => @message
     )
 
-  User.create({
-    :number => @from,
-    :on => @on
-  })
 end
