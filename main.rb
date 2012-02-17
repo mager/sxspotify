@@ -12,11 +12,12 @@ post '/sms' do
   @us = '+15128616593' # This is our Twilio number
   @client = Twilio::REST::Client.new @sid, @auth_token
 
-  # Set global variables
+  # Break down the message object into usable variables
   @from = "+1" << params[:From] # The @from variable is the user's cell phone number
-  @body = params[:Body]
-  @text_message = nil # The message we blast to everyone
-  @on = false
+  @body = params[:Body] # The body of the text message
+
+  @broadcasters = ['+16464131271', '+14158305533']
+  @on = false # Whether or not the user wants texts
 
   # If a phone number is not in the database...
   if User.first(:number => @from) == nil
@@ -28,7 +29,7 @@ post '/sms' do
   end
 
   # TODO: If the incoming cell phone number is a certified Spotify broadcaster, like Candice, Rachel, or Andrew, the whole logic of the code changes; And the message from that cell phone gets sent to every other cell phone in the database.
-  if @from == '+16464131271'
+  if @broadcasters.include?(@from)
     for user in User.all(:on=>true)
       @client.account.sms.messages.create(
         :from => @us,
