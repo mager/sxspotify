@@ -28,7 +28,8 @@ post '/sms' do
     })
   end
 
-  # TODO: If the incoming cell phone number is a certified Spotify broadcaster, like Candice, Rachel, or Andrew, the whole logic of the code changes; And the message from that cell phone gets sent to every other cell phone in the database.
+  # If broadcaster texts a message, send it to everybody
+  # with @on = true
   if @broadcasters.include?(@from)
     for user in User.all(:on=>true)
       @client.account.sms.messages.create(
