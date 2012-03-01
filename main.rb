@@ -18,6 +18,8 @@ post '/sms' do
   @broadcasters = ['+14158305533']
   @on = false # Whether or not the user wants texts
 
+  @subscribe = ['Subscribe', 'Spotify', 'testing!']
+
   # If a phone number is not in the database...
   if User.first(:number => @from) == nil
     # Create a row in the database
@@ -40,7 +42,7 @@ post '/sms' do
 
   else
 
-    if @body == 'Subscribe' or @body == 'Spotify'
+    if @subscribe.include?(@body)
 
       @message = 'You will now get updates from Spotify about awesome shows at SxSW. Text "off" to unsubscribe.'
       @on = true
