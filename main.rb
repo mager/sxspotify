@@ -18,7 +18,9 @@ post '/sms' do
   @broadcasters = ['+14158305533']
   @on = false # Whether or not the user wants texts
 
-  @subscribe = ['Subscribe', 'Spotify', 'testing!']
+  @subscribe = ['Subscribe', 'subscribe', 'subcribe', 'suscribe', 'subscibe', 'Start', 'start']
+  @unsubscribe = ['Off', 'off', 'Cancel', 'cancel', 'Stop', 'stop', 'Shut up', 'Die', 'No', 'no']
+  @resubscribe = ['On', 'on']
 
   # If a phone number is not in the database...
   if User.first(:number => @from) == nil
@@ -44,29 +46,25 @@ post '/sms' do
 
     if @subscribe.include?(@body)
 
-      @message = 'You will now get updates from Spotify about awesome shows at SxSW. Text "off" to unsubscribe.'
+      @message = 'You will now get updates from Spotify about awesome shows at SxSW. Text "off" to unsubscribe. SMS powered by Twilio!'
       @on = true
       update_database()
 
-    elsif @body == 'cancel' or @body == 'Cancel' or @body == 'off' or @body == "Off" or @body == 'Unsubscribe'
+    elsif @unsubscribe.include?(@body)
 
       @message = 'Okay, you\'re unsubscribed. Text "on" to turn on notifications.'
       @on = false
       update_database()
   
-    elsif @body == 'on' or @body == 'On'
+    elsif @resubscribe.include?(@body)
 
       @message = 'Welcome back! Notifications from Spotify are on. Stay tuned for updates about secret shows at SxSW'
       @on = true
       update_database()
 
-    elsif @body == 'help' or @body == 'Help' or @body == 'HELP'
-
-      @message = 'I haven\'t programmed that. Yell at @mager'
-
     else
 
-      @body == 'I don\t recognize that command. Type "help" to get a list of commands.'
+      @body == 'We don\t recognize that command. Type "on" or "off" to manage notifications.'
 
     end
 
