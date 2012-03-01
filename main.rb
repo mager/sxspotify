@@ -12,8 +12,6 @@ post '/sms' do
   @us = '+16466062002' # This is our Twilio number
   @client = Twilio::REST::Client.new @sid, @auth_token
 
-  # Break down the message object into usable variables
-  @from = "+1" << params[:From] # The @from variable is the user's cell phone number
   @body = params[:Body] # The body of the text message
 
   @broadcasters = ['+16464131271', '+14158305533']
