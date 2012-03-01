@@ -12,9 +12,10 @@ post '/sms' do
   @us = '+16466062002' # This is our Twilio number
   @client = Twilio::REST::Client.new @sid, @auth_token
 
+  @from = params[:From]
   @body = params[:Body] # The body of the text message
 
-  @broadcasters = ['+16464131271', '+14158305533']
+  @broadcasters = ['+14158305533']
   @on = false # Whether or not the user wants texts
 
   # If a phone number is not in the database...
