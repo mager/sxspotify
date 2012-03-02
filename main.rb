@@ -63,7 +63,7 @@ post '/sms' do
       @on = true
       update_database()
 
-    elsif @help.include(@body)
+    elsif @help.include?(@body)
 
         @message = 'Type "on" or "off" to manage notifications.'
 
