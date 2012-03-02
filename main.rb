@@ -18,7 +18,7 @@ post '/sms' do
   @broadcasters = ['+14158305533']
   @on = false # Whether or not the user wants texts
 
-  @subscribe = ['Subscribe', 'subscribe', 'subcribe', 'suscribe', 'subscibe', 'Start', 'start']
+  @subscribe = ['Subscribe', 'subscribe', 'subcribe', 'suscribe', 'subscibe', 'Start', 'start', 'Spotify']
   @unsubscribe = ['Off', 'off', 'Cancel', 'cancel', 'Stop', 'stop', 'Shut up', 'Die', 'No', 'no']
   @resubscribe = ['On', 'on']
 
@@ -46,19 +46,19 @@ post '/sms' do
 
     if @subscribe.include?(@body)
 
-      @message = 'You will now get updates from Spotify about awesome shows at SxSW. Text "off" to unsubscribe. SMS powered by Twilio!'
+      @message = 'Welcome! You will now get updates from Spotify about awesome events in Austin this week. Text "off" to unsubscribe. SMS powered by Twilio!'
       @on = true
       update_database()
 
     elsif @unsubscribe.include?(@body)
 
-      @message = 'Okay, you\'re unsubscribed. Text "on" to turn on notifications.'
+      @message = 'Okay, you\'re unsubscribed. If you miss us, text "on" to resume updates from Spotify.'
       @on = false
       update_database()
   
     elsif @resubscribe.include?(@body)
 
-      @message = 'Welcome back! Notifications from Spotify are on. Stay tuned for updates about secret shows at SxSW'
+      @message = 'Welcome back! Notifications from Spotify are on. Stay tuned for updates about all of our events this week in Austin.'
       @on = true
       update_database()
 
