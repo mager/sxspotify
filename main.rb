@@ -18,9 +18,10 @@ post '/sms' do
   @broadcasters = ['+14158305533']
   @on = false # Whether or not the user wants texts
 
-  @subscribe = ['Subscribe', 'subscribe', 'subcribe', 'suscribe', 'subscibe', 'Start', 'start', 'Spotify']
-  @unsubscribe = ['Off', 'off', 'Cancel', 'cancel', 'Stop', 'stop', 'Shut up', 'Die', 'No', 'no']
+  @subscribe = ['Subscribe', 'subscribe', 'subcribe', 'suscribe', 'subscibe', 'Start', 'start', 'Spotify', 'JOIN', 'Join', 'join']
+  @unsubscribe = ['Off', 'off', 'Cancel', 'cancel', 'STOP', 'Stop', 'stop', 'Shut up', 'Die', 'No', 'no']
   @resubscribe = ['On', 'on']
+  @help = ['HELP', 'Help', 'help', '?']
 
   # If a phone number is not in the database...
   if User.first(:number => @from) == nil
@@ -61,6 +62,10 @@ post '/sms' do
       @message = 'Welcome back! Notifications from Spotify are on. Stay tuned for updates about all of our events this week in Austin.'
       @on = true
       update_database()
+
+    elsif @help.include(@body)
+
+        @message = 'Type "on" or "off" to manage notifications.'
 
     else
 
