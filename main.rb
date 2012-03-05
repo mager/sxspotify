@@ -47,7 +47,7 @@ post '/sms' do
 
     if @subscribe.include?(@body)
 
-      @message = 'Welcome! You will now get updates from Spotify about awesome events in Austin this week. Text "off" to unsubscribe. SMS powered by Twilio!'
+      @message = 'Welcome! You will now get updates from Spotify about awesome events in Austin next week. Text "off" to unsubscribe. SMS powered by Twilio!'
       @on = true
       update_database()
 
