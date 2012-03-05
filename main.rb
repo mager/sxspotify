@@ -18,7 +18,7 @@ post '/sms' do
   @broadcasters = ['+14158305533']
   @on = false # Whether or not the user wants texts
 
-  @subscribe = ['Subscribe', 'subscribe', 'subcribe', 'suscribe', 'subscibe', 'Start', 'start', 'Spotify', 'JOIN', 'Join', 'join']
+  @subscribe = ['Subscribe', 'subscribe', 'subcribe', 'suscribe', 'subscibe', 'Start', 'start', 'Spotify', 'JOIN', 'Join', 'join', 'spotify']
   @unsubscribe = ['Off', 'off', 'Cancel', 'cancel', 'STOP', 'Stop', 'stop', 'Shut up', 'Die', 'No', 'no']
   @resubscribe = ['On', 'on']
   @help = ['HELP', 'Help', 'help', '?']
