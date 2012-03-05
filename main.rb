@@ -9,7 +9,7 @@ post '/sms' do
   # Initialize Twilio
   @sid = ENV['SID']
   @auth_token = ENV['AUTH_TOKEN']
-  @us = '+16466062002' # This is our Twilio number
+  @us = '894546' # This is our Twilio number
   @client = Twilio::REST::Client.new @sid, @auth_token
 
   @from = params[:From]
