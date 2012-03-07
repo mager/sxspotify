@@ -53,7 +53,7 @@ post '/sms' do
 
     elsif @unsubscribe.include?(@body)
 
-      @message = 'Okay, you\'re unsubscribed. If you miss us, text "on" to resume updates from Spotify.'
+      @message = 'You are opted out from Spotify SMS alerts. No more messages will be sent. Text ON to rejoin. Text HELP for help. Msg&Data rates may apply.'
       @on = false
       update_database()
   
@@ -65,7 +65,7 @@ post '/sms' do
 
     elsif @help.include?(@body)
 
-        @message = 'Type "on" or "off" to manage notifications.'
+        @message = 'Spotify SMS alerts: Reply STOP or OFF to cancel. Msg frequency depends on user. Msg&Data rates may apply.'
 
     else
 
