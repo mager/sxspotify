@@ -4,6 +4,12 @@ require 'twilio-ruby'
 require 'mongo_mapper'
 require './model'
 
+get '/' do
+  'What up ash!'
+end
+
+
+
 # When someone sends a text message to us, this code runs
 post '/sms' do
   # Initialize Twilio
