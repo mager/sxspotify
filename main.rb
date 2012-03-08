@@ -49,7 +49,7 @@ post '/sms' do
         @client.account.sms.messages.create(
             :from => @us,
             :to => number,
-            :body => 'You just sent a message to ' + @count + ' peeps.'
+            :body => 'You just sent a message to ' + @count + ' peeps. Hope you aren\'t too drunk or sleepy.'
         )
     }
 
