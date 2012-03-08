@@ -15,7 +15,7 @@ post '/sms' do
   @from = params[:From]
   @body = params[:Body] # The body of the text message
 
-  @broadcasters = ['+14158305533']
+  @broadcasters = ['+14158305533', '+14156022729', '+16463340760']
   @on = false # Whether or not the user wants texts
 
   @subscribe = ['Subscribe', 'subscribe', 'subcribe', 'suscribe', 'subscibe', 'Start', 'start', 'Spotify', 'JOIN', 'Join', 'join', 'spotify']
