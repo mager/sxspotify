@@ -43,6 +43,19 @@ post '/sms' do
       )
     end
 
+    @count = User.all(:on=>true).count.to_s
+
+    @broadcasters.each { |number|
+        @client.account.sms.messages.create(
+            :from => @us,
+            :to => number,
+            :body => 'You just sent a message to ' + @count + ' peeps.'
+        )
+    }
+
+
+
+
   else
 
     if @subscribe.include?(@body)
