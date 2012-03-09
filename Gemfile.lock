@@ -11,6 +11,9 @@ GEM
     bson_ext (1.5.2)
       bson (= 1.5.2)
     builder (3.0.0)
+    em-synchrony (1.0.0)
+      eventmachine (>= 1.0.0.beta.1)
+    eventmachine (1.0.0.beta.4)
     httparty (0.8.1)
       multi_json
       multi_xml
@@ -45,6 +48,7 @@ PLATFORMS
 
 DEPENDENCIES
   bson_ext (= 1.5.2)
+  em-synchrony (= 1.0.0)
   mongo_mapper (= 0.11.0)
   sinatra (= 1.0)
   twilio-rb (= 2.1.3)
