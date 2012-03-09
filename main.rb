@@ -1,104 +1,67 @@
 require 'rubygems'
 require 'sinatra'
-require 'twilio-ruby'
+#require 'sinatra/synchrony'
+require 'twilio-rb'
 require 'mongo_mapper'
 require './model'
 
+Twilio::Config.setup account_sid: ENV['SID'], auth_token:  ENV['AUTH_TOKEN']
+
+# This is our Twilio number
+CALLER_ID    = '894546'.freeze
+BROADCASTERS = ['+14158305533', '+14156022729', '+16463340760'].freeze
+
+
 # When someone sends a text message to us, this code runs
 post '/sms' do
-  # Initialize Twilio
-  @sid = ENV['SID']
-  @auth_token = ENV['AUTH_TOKEN']
-  @us = '894546' # This is our Twilio number
-  @client = Twilio::REST::Client.new @sid, @auth_token
 
-  @from = params[:From]
-  @body = params[:Body] # The body of the text message
+  # Break down the message object into usable variables
+  from = params['From'] # The @from variable is the user's cell phone number
+  body = params['Body'] # The body of the text message
+  on   = false # Whether or not the user wants texts
 
-  @broadcasters = ['+14158305533', '+14156022729', '+16463340760']
-  @on = false # Whether or not the user wants texts
-
-  @subscribe = ['Subscribe', 'subscribe', 'subcribe', 'suscribe', 'subscibe', 'Start', 'start', 'Spotify', 'JOIN', 'Join', 'join', 'spotify']
-  @unsubscribe = ['Off', 'off', 'Cancel', 'cancel', 'STOP', 'Stop', 'stop', 'Shut up', 'Die', 'No', 'no']
-  @resubscribe = ['On', 'on']
-  @help = ['HELP', 'Help', 'help', '?']
-
-  # If a phone number is not in the database...
-  if User.first(:number => @from) == nil
-    # Create a row in the database
-    User.create({
-      :number => @from,
-      :on => @on
-    })
-  end
+  # If a phone number is not in the database, create a row in the database.
+  user = User.first(number: from) || User.create(number: from, on: on)
 
   # If broadcaster texts a message, send it to everybody
-  # with @on = true
-  if @broadcasters.include?(@from)
-    for user in User.all(:on=>true)
-      @client.account.sms.messages.create(
-        :from => @us,
-        :to => user[:number],
-        :body => @body
-      )
+  # with on = true
+  if BROADCASTERS.include?(from)
+    User.all(on: true).each { |user| Twilio::SMS.create from: CALLER_ID, to: user[:number], body: body }
+    count = User.count on: true
+
+    BROADCASTERS.each do |number|
+       Twilio::SMS.create from: CALLER_ID, to: number, body: 'You just sent a message to ' + count.to_s + ' peeps. Hope you aren\'t too drunk or sleepy.'
     end
-
-    @count = User.all(:on=>true).count.to_s
-
-    @broadcasters.each { |number|
-        @client.account.sms.messages.create(
-            :from => @us,
-            :to => number,
-            :body => 'You just sent a message to ' + @count + ' peeps. Hope you aren\'t too drunk or sleepy.'
-        )
-    }
-
-
-
 
   else
 
-    if @subscribe.include?(@body)
+    case body
+    when /^subscribe$/i, /^spotify$/i, /^join$/i
+      message = 'Welcome! You will now get updates from Spotify about awesome events in Austin next week. Text "off" to unsubscribe. SMS powered by Twilio!'
+      on      = true
 
-      @message = 'Welcome! You will now get updates from Spotify about awesome events in Austin next week. Text "off" to unsubscribe. SMS powered by Twilio!'
-      @on = true
-      update_database()
+    when /^cancel$/i, /^off$/i, /^unsubscribe$/i, /^stop$/i, /^die$/i, /^shut up$/
+      message = 'You are opted out from Spotify SMS alerts. No more messages will be sent. Text ON to rejoin. Text HELP for help. Msg&Data rates may apply.'
+      on      = false
 
-    elsif @unsubscribe.include?(@body)
+    when /^on$/i
+      message = 'Welcome back! Notifications from Spotify are on. Stay tuned for updates about all of our events this week in Austin.'
+      on      = true
 
-      @message = 'You are opted out from Spotify SMS alerts. No more messages will be sent. Text ON to rejoin. Text HELP for help. Msg&Data rates may apply.'
-      @on = false
-      update_database()
-  
-    elsif @resubscribe.include?(@body)
-
-      @message = 'Welcome back! Notifications from Spotify are on. Stay tuned for updates about all of our events this week in Austin.'
-      @on = true
-      update_database()
-
-    elsif @help.include?(@body)
-
-        @message = 'Spotify SMS alerts: Reply STOP or OFF to cancel. Msg frequency depends on user. Msg&Data rates may apply.'
+    when /^help$/i
+      message = 'Spotify SMS alerts: Reply STOP or OFF to cancel. Msg frequency depends on user. Msg&Data rates may apply.'
 
     else
-
-      @body == 'We don\t recognize that command. Type "on" or "off" to manage notifications.'
+      message = 'Welcome! You will now get updates from Spotify about awesome events in Austin next week. Text "off" to unsubscribe. SMS powered by Twilio!'
+      on      = true
 
     end
 
-      @client.account.sms.messages.create(
-        :from => @us,
-        :to => @from,
-        :body => @message
-      )
+    Twilio::SMS.create from: CALLER_ID, to: from, body: message
+
+    user.update_attributes! on: on
   end
 
 end
 
 
-# Functions
-def update_database()
-  @user = User.first(:number => @from)
-  @user.update_attributes(:on => @on)
-  @user.save
-end
