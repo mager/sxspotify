@@ -5,6 +5,7 @@ require 'sinatra'
 require 'sinatra/synchrony'
 require 'twilio-rb'
 require 'mongo_mapper'
+require 'logger'
 require './model'
 
 # TCPSocket = EventMachine::Synchrony::TCPSocket
@@ -16,6 +17,41 @@ CALLER_ID = '+16466062002'.freeze
 
 # An array of broadcasters
 BROADCASTERS = ['+14156022729'].freeze
+LOGGER = Logger.new STDOUT
+
+
+# Web interface for posting
+
+get '/admin' do
+  haml :admin
+end
+
+post '/admin' do
+  User.all(on: true).each do |user|
+    retry_count = 0
+    begin
+      Twilio::SMS.create(from: ENV['CALLER_ID'], to: user[:number], body: params['sms_body']) unless retry_count > 3
+    rescue => e
+      retry_count += 1
+      LOGGER.error "ERROR: failed to send message to #{user[:number]}. Error msg: #{e.to_s}. Retrying #{ 3 - retry_count } more times."
+      retry
+    end
+
+  end
+
+  count = User.count on: true
+
+  BROADCASTERS.each do |number|
+    Twilio::SMS.create from: ENV['CALLER_ID'], to: number, body: 'INFO: Message sent to ' + count.to_s + ' subscribers from web interface.'
+  end
+
+  LOGGER.info "Broadcast sent. Message body: #{params[:sms_body]}"
+
+  "Message sent."
+end
+
+
+
 
 # When someone sends a text message to us, this code runs
 post '/sms' do
