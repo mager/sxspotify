@@ -7,16 +7,15 @@ require 'twilio-rb'
 require 'mongo_mapper'
 require './model'
 
-TCPSocket = EventMachine::Synchrony::TCPSocket
+# TCPSocket = EventMachine::Synchrony::TCPSocket
 
-Twilio::Config.setup account_sid: ENV['SID'], auth_token:  ENV['AUTH_TOKEN']
+Twilio::Config.setup account_sid: ENV['SID'], auth_token: ENV['AUTH_TOKEN']
 
 # This is our Twilio number
-CALLER_ID    = '+16466062002'.freeze
+CALLER_ID = '+16466062002'.freeze
 
 # An array of broadcasters
 BROADCASTERS = ['+14156022729'].freeze
-
 
 # When someone sends a text message to us, this code runs
 post '/sms' do
