@@ -7,6 +7,7 @@ require 'twilio-rb'
 require 'mongo_mapper'
 require './model'
 
+TCPSocket = EventMachine::Synchrony::TCPSocket
 
 Twilio::Config.setup account_sid: ENV['SID'], auth_token:  ENV['AUTH_TOKEN']
 
