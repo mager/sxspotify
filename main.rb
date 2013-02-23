@@ -48,6 +48,8 @@ post '/admin' do
   LOGGER.info "Broadcast sent. Message body: #{params[:sms_body]}"
 
   "Message sent."
+
+  redirect '/admin'
 end
 
 
