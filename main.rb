@@ -30,7 +30,7 @@ post '/admin' do
   User.all(on: true).each do |user|
     retry_count = 0
     begin
-      Twilio::SMS.create(from: ENV['CALLER_ID'], to: user[:number], body: params['sms_body']) unless retry_count > 3
+      Twilio::SMS.create(from: CALLER_ID, to: user[:number], body: params['sms_body']) unless retry_count > 2
     rescue => e
       retry_count += 1
       LOGGER.error "ERROR: failed to send message to #{user[:number]}. Error msg: #{e.to_s}. Retrying #{ 3 - retry_count } more times."
