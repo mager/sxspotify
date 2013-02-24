@@ -19,7 +19,7 @@
   %body
     %h1 SXSpotify Broadcast
 
-    %p= "This message will be sent to #{User.count} subscribers"
+    %p= "This message will be sent to #{@count} subscribers"
 
     %form{ method: 'POST', action: '/admin' }
       %textarea{ name: 'sms_body', maxlength: '160' }

@@ -23,6 +23,7 @@ LOGGER = Logger.new STDOUT
 # Web interface for posting
 
 get '/admin' do
+  @count = User.count on: true
   haml :admin
 end
 
