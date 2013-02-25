@@ -16,7 +16,7 @@ Twilio::Config.setup account_sid: ENV['SID'], auth_token: ENV['AUTH_TOKEN']
 CALLER_ID = '+16466062002'.freeze
 
 # An array of broadcasters
-BROADCASTERS = ['+18885551212'].freeze
+BROADCASTERS = ['+14158305533'].freeze
 LOGGER = Logger.new STDOUT
 
 
