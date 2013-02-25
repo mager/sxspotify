@@ -27,6 +27,11 @@ get '/admin' do
   haml :admin
 end
 
+get '/sent' do
+  @count = User.count on: true
+  haml :sent
+end
+
 post '/admin' do
   User.all(on: true).each do |user|
     retry_count = 0
@@ -50,7 +55,7 @@ post '/admin' do
 
   "Message sent."
 
-  redirect '/admin'
+  redirect '/sent'
 end
 
 
