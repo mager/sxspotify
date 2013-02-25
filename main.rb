@@ -16,7 +16,7 @@ Twilio::Config.setup account_sid: ENV['SID'], auth_token: ENV['AUTH_TOKEN']
 CALLER_ID = '+16466062002'.freeze
 
 # An array of broadcasters
-BROADCASTERS = ['+14156022729'].freeze
+BROADCASTERS = ['+18885551212'].freeze
 LOGGER = Logger.new STDOUT
 
 
@@ -43,7 +43,7 @@ post '/admin' do
   count = User.count on: true
 
   BROADCASTERS.each do |number|
-    Twilio::SMS.create from: ENV['CALLER_ID'], to: number, body: 'INFO: Message sent to ' + count.to_s + ' subscribers from web interface.'
+    Twilio::SMS.create from: CALLER_ID, to: number, body: 'INFO: Message sent to ' + count.to_s + ' subscribers from web interface.'
   end
 
   LOGGER.info "Broadcast sent. Message body: #{params[:sms_body]}"
