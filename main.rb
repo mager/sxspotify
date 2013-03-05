@@ -94,11 +94,11 @@ post '/sms' do
       on      = false
 
     when /^on$/i
-      message = 'Welcome back! Notifications from Spotify are on. Stay tuned for updates about all of our events this week in Austin.'
+      message = 'Welcome back! Notifications from Spotify are on. Stay tuned for updates about all of our events this week in Austin. SMS powered by Twilio!'
       on      = true
 
     when /^help$/i
-      message = 'Spotify SMS alerts: Reply STOP or OFF to cancel. Msg frequency depends on user. Msg&Data rates may apply.'
+      message = 'Spotify SMS alerts: Reply STOP or OFF to cancel. Msg frequency depends on user. Msg&Data rates may apply. SMS powered by Twilio.'
 
     else
       message = 'Welcome! You will now get updates from Spotify about awesome events in Austin next week. Text "off" to unsubscribe. SMS powered by Twilio!'
