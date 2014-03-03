@@ -1,6 +1,6 @@
-MongoMapper.connection = Mongo::Connection.new('staff.mongohq.com', 10020)
-MongoMapper.database = 'sxspotify'
-MongoMapper.database.authenticate('sxspotify','sxspotify')
+MongoMapper.connection = Mongo::Connection.new('linus.mongohq.com', 10008)
+MongoMapper.database = 'sxspotify-test'
+MongoMapper.database.authenticate('test','test')
 
 class User
   include MongoMapper::Document

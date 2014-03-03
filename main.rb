@@ -13,7 +13,7 @@ require './model'
 Twilio::Config.setup account_sid: ENV['SID'], auth_token: ENV['AUTH_TOKEN']
 
 # This is our Twilio number
-CALLER_ID = '+61235'.freeze
+CALLER_ID = '+16466062002'.freeze
 
 # An array of broadcasters
 BROADCASTERS = ['+14158305533'].freeze
@@ -94,11 +94,14 @@ post '/sms' do
       on      = false
 
     when /^on$/i
-      message = 'Welcome back! Notifications from Spotify are on. Stay tuned for updates about all of our events this week in Austin. SMS powered by Twilio!'
+      message = 'Welcome back! Notifications from Spotify are on. Stay tuned for updates about all of our events this week in Austin.'
       on      = true
 
     when /^help$/i
-      message = 'Spotify SMS alerts: Reply STOP or OFF to cancel. Msg frequency depends on user. Msg&Data rates may apply. SMS powered by Twilio.'
+      message = 'Spotify SMS alerts: Reply STOP or OFF to cancel. Msg frequency depends on user. Msg&Data rates may apply.'
+
+    when /^house$/i
+      message = 'Thanks for visiting the Spotify House in Austin. Here\'s a playlist for the road: [link tbd].'
 
     else
       message = 'Welcome! You will now get updates from Spotify about awesome events in Austin next week. Text "off" to unsubscribe. SMS powered by Twilio!'
